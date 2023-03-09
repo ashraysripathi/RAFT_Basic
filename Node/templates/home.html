@@ -1,0 +1,16 @@
+<!doctype html>
+<h1 align="center">Natural Events Tracker(in progress)</h1>
+<form action="/new" method="POST" align="center">Enter Your Message
+    <input type="text" name="name"></input>
+    <input type="submit"></input>
+
+</form>
+
+
+{% for item in items %}
+<h1 align="center">{{item.name}}</h1>
+{% endfor %}
+
+{% for e in ev %}
+<h1 align="center">{{e}}</h1>
+{% endfor %}

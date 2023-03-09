@@ -1,0 +1,146 @@
+# This is a sample docker-compose file, Please follow the naming convention for the service and container name, all node
+# names must begin with "Node" followed by their sequence number. For a three node cluster your service/container names
+# should be Node1, Node2 and Node3 as shown below(for service names they will be lowercase). You can add additional
+# parameters and configurations as required by your implementation.
+
+version: "3.7"
+services:
+  node1:
+    container_name: Node1
+    build: Node/.
+    depends_on:
+      - db1
+    links:
+      - db1
+    command: python -u app.py
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./logs:/Node/logs
+      - ./src:/Node/src
+    environment:
+      - SERVER_ID=1
+      - NUM_SERVERS=5
+      - SERVER_NAME=Node1
+  db1:
+    image: mongo:latest
+    hostname: test_mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=test_db
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+
+  node2:
+    container_name: Node2
+    build: Node/.
+    depends_on:
+      - db2
+    links:
+      - db2
+    command: python -u app.py
+    ports:
+      - "5001:5000"
+    volumes:
+      - ./logs:/Node/logs
+      - ./src:/Node/src
+    environment:
+      - SERVER_ID=2
+      - NUM_SERVERS=5
+      - SERVER_NAME=Node2
+  db2:
+    image: mongo:latest
+    hostname: test_mongodb
+    ports:
+      - "27021:27017"
+    volumes:
+      - ~/mongo/data:/data/db2
+    environment:
+      - MONGO_INITDB_DATABASE=test_db
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+
+  node3:
+    container_name: Node3
+    build: Node/.
+    depends_on:
+      - db3
+    links:
+      - db3
+    command: python -u app.py
+    ports:
+      - "5002:5000"
+    volumes:
+      - ./logs:/Node/logs
+      - ./src:/Node/src
+    environment:
+      - SERVER_ID=3
+      - NUM_SERVERS=5
+      - SERVER_NAME=Node3
+  db3:
+    image: mongo:latest
+    hostname: test_mongodb
+    ports:
+      - "27022:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=test_db
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+  node4:
+    container_name: Node4
+    build: Node/.
+    depends_on:
+      - db4
+    links:
+      - db4
+    command: python -u app.py
+    ports:
+      - "5003:5000"
+    volumes:
+      - ./logs:/Node/logs
+      - ./src:/Node/src
+    environment:
+      - SERVER_ID=4
+      - NUM_SERVERS=5
+      - SERVER_NAME=Node4
+  db4:
+    image: mongo:latest
+    hostname: test_mongodb
+    ports:
+      - "27023:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=test_db
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+  node5:
+    container_name: Node5
+    build: Node/.
+    depends_on:
+      - db5
+    links:
+      - db5
+    command: python -u app.py
+    ports:
+      - "5004:5000"
+    volumes:
+      - ./logs:/Node/logs
+      - ./src:/Node/src
+    environment:
+      - SERVER_ID=5
+      - NUM_SERVERS=5
+      - SERVER_NAME=Node5
+  db5:
+    image: mongo:latest
+    hostname: test_mongodb
+    ports:
+      - "27024:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=test_db
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+    #Do not change the part below
+  controller:
+    container_name: Controller
+    build: Controller/.
+    stdin_open: true
